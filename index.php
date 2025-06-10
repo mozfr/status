@@ -3,7 +3,7 @@ $urls = [
     'https://www.mozfr.org',
     'https://blog.mozfr.org',
     'https://tech.mozfr.org',
-    'https://notreinternet.mozfr.org/   ',
+    'https://notreinternet.mozfr.org',
     'https://planete.mozfr.org',
     'https://forums.mozfr.org',
     'https://transvision.mozfr.org',
