@@ -1,13 +1,9 @@
 <?php
-$urls = [
-    'https://www.mozfr.org',
-    'https://blog.mozfr.org',
-    'https://tech.mozfr.org',
-    'https://notreinternet.mozfr.org',
-    'https://planete.mozfr.org',
-    'https://forums.mozfr.org',
-    'https://transvision.mozfr.org',
-];
+
+$urls = array_map(
+    fn($a) => "https://{$a}.mozfr.org",
+    ['blog', 'forums', 'nightly', 'notreinternet', 'planete', 'tech', 'transvision', 'www', ]
+);
 
 $multi_handle = curl_multi_init();
 $handles = [];
@@ -26,10 +22,9 @@ do {
 
 $response_code = [];
 for ($i = 0; $i < count($urls); $i++) {
-    $response_code[] =
-    [
-        'site'   => $urls[$i],
-        'status' => curl_getinfo($handles[$i], CURLINFO_HTTP_CODE),
+    $response_code[] = [
+        'site'      => $urls[$i],
+        'status'    => curl_getinfo($handles[$i], CURLINFO_HTTP_CODE),
         'nice_name' => parse_url($urls[$i], PHP_URL_HOST),
     ];
 }
