@@ -1,5 +1,8 @@
 <?php
 
+// Only use via htmx include
+$_SERVER['HTTP_HX_REQUEST'] ?? false ?: exit();
+
 function multiCurl(array $urls): array {
     $multi_handle = curl_multi_init();
     $handles = [];
@@ -34,7 +37,6 @@ $urls = array_map(
 );
 
 $status = multiCurl($urls);
-// sleep(1000);
 ?>
     <?php foreach($status as $site): ?>
         <li>
