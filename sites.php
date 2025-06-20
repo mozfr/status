@@ -33,7 +33,7 @@ function multiCurl(array $urls): array {
 
 $urls = array_map(
     fn($a) => "https://{$a}.mozfr.org",
-    ['blog', 'forums', 'nightly', 'notreinternet', 'planete', 'tech', 'transvision', 'www']
+    ['blog', 'firefoxos', 'forums', 'gandi', 'nightly', 'notreinternet', 'piwik', 'planete', 'tech', 'transvision', 'transvision-beta', 'wiki', 'www']
 );
 
 $status = multiCurl($urls);
@@ -41,7 +41,7 @@ $status = multiCurl($urls);
     <?php foreach($status as $site): ?>
         <li>
             <span
-                class="<?php echo $site['status'] == 200 ? 'good' : 'bad' ; echo " " . $site['status'];?>"
+                class="<?php echo in_array($site['status'], [200, 301]) ? 'good' : 'bad' ; echo " " . $site['status'];?>"
                 title="Code : <?php echo (string) $site['status']; ?>"
             >&#9679;</span>
             <?=$site['nice_name']; ?>
