@@ -8,8 +8,16 @@ function multiCurl(array $urls): array {
     $handles = [];
     foreach($urls as $i => $url) {
         $handles[$i] = curl_init();
-        curl_setopt($handles[$i], CURLOPT_RETURNTRANSFER, true);
+
         curl_setopt($handles[$i], CURLOPT_URL, $url);
+        curl_setopt($handles[$i], CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($handles[$i], CURLOPT_HEADER, true);
+        curl_setopt($handles[$i], CURLOPT_NOBODY, true);
+        curl_setopt($handles[$i], CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($handles[$i], CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($handles[$i], CURLOPT_SSL_VERIFYSTATUS, false);
+        curl_setopt($handles[$i], CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+
         curl_multi_add_handle($multi_handle, $handles[$i]);
     }
 
@@ -20,7 +28,7 @@ function multiCurl(array $urls): array {
     } while ($running > 0);
 
     $url_status = [];
-    foreach($urls as $i => $url) {
+    foreach ($urls as $i => $url) {
         $url_status[] = [
             'site'      => $urls[$i],
             'status'    => curl_getinfo($handles[$i], CURLINFO_HTTP_CODE),
@@ -28,17 +36,19 @@ function multiCurl(array $urls): array {
         ];
     }
 
+    curl_multi_close($multi_handle);
+
     return $url_status;
 }
 
 $urls = array_map(
     fn($a) => "https://{$a}.mozfr.org",
-    ['blog', 'firefoxos', 'forums', 'gandi', 'nightly', 'notreinternet', 'piwik', 'planete', 'tech', 'transvision', 'transvision-beta', 'wiki', 'www']
+    ['blog', 'firefoxos', 'forums', 'gandi', 'nightly', 'notreinternet', 'piwik',
+     'planete', 'tech', 'transvision', 'transvision-beta', 'wiki', 'www',]
 );
 
-$status = multiCurl($urls);
 ?>
-    <?php foreach($status as $site): ?>
+    <?php foreach (multiCurl($urls) as $site): ?>
         <li>
             <span
                 class="<?php echo in_array($site['status'], [200, 301]) ? 'good' : 'bad' ; echo " " . $site['status'];?>"
