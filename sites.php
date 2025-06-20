@@ -1,7 +1,7 @@
 <?php
 
 // Only use via htmx include
-$_SERVER['HTTP_HX_REQUEST'] ?? false ?: exit();
+$_SERVER['HTTP_HX_REQUEST'] ?? exit();
 
 function multiCurl(array $urls): array {
     $multi_handle = curl_multi_init();
