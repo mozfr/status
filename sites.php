@@ -11,8 +11,8 @@ function multiCurl(array $urls): array {
         CURLOPT_RETURNTRANSFER   => true,
         CURLOPT_HEADER           => true,
         CURLOPT_NOBODY           => true,
-        CURLOPT_CONNECTTIMEOUT   => 3,  // Fail fast if the server doesn't respond
-        CURLOPT_TIMEOUT          => 10, // Total limit for the request
+        CURLOPT_CONNECTTIMEOUT   => 2,  // Fail fast if the server doesn't respond
+        CURLOPT_TIMEOUT          => 5, // Total limit for the request
         CURLOPT_SSL_VERIFYHOST   => false,
         CURLOPT_SSL_VERIFYPEER   => false,
         CURLOPT_SSL_VERIFYSTATUS => false,
