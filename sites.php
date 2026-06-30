@@ -11,7 +11,7 @@ function multiCurl(array $urls): array {
         CURLOPT_RETURNTRANSFER   => true,
         CURLOPT_HEADER           => true,
         CURLOPT_NOBODY           => true,
-        CURLOPT_CONNECTTIMEOUT   => 2,  // Fail fast if the server doesn't respond
+        CURLOPT_CONNECTTIMEOUT   => 3,  // Fail fast if the server doesn't respond
         CURLOPT_TIMEOUT          => 5, // Total limit for the request
         CURLOPT_SSL_VERIFYHOST   => false,
         CURLOPT_SSL_VERIFYPEER   => false,
@@ -58,6 +58,6 @@ $urls = array_map(
                 class="<?php echo in_array($site['status'], [200, 301]) ? 'good' : 'bad' ; echo " " . $site['status'];?>"
                 title="Code : <?php echo (string) $site['status']; ?>"
             >&#9679;</span>
-            <?=$site['nice_name']; ?>
+            <a href="https://<?=$site['nice_name']; ?>"><?=$site['nice_name']; ?></a>
         </li>
     <?php endforeach; ?>
